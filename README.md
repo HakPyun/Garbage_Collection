@@ -16,7 +16,7 @@ Heap영역에서 참조되지 않은 객체들이 발생하게되는데 이러�
 
 그렇지 않으면 사용되지도 않는데 Heap 영역을 차지하는 쓰레기(Garbage)들이 남아있게 되기 때문이다.(메모리 누수)
 
-# Garbage Collection 매커니즘
+# Garbage Collection(Java) 매커니즘
 
 <b>Young, Old, Minor GC, Major GC</b>
 
