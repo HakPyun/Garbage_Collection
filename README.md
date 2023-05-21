@@ -95,3 +95,4 @@ Young 영역은 일반적으로 Old 영역보다 크키가 작기 때문에 GC�
 # Example Questions
 
 
+자료 출처 : https://mangkyu.tistory.com/118 | https://itkjspo56.tistory.com/285 | https://coding-factory.tistory.com/829 | https://mangkyu.tistory.com/118
