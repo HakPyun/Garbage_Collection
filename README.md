@@ -93,6 +93,86 @@ Young 영역은 일반적으로 Old 영역보다 크키가 작기 때문에 GC�
         Majot GC는 Old 영역이 꽉 찼을 때 실행되며, 속도는 느리다.(Old 영역이 더 크기 때문)
         
 # Example Questions
+<b>GC로도 메모리 leak이 발생하는 경우</b>
+    
+<pre><code>import java.util.ArrayList;
+    import java.util.List;
+
+    public class MemoryLeakExample {
+        private List<String> list = new ArrayList<>();
+
+     public void add(String item) {
+         list.add(item);
+     }
+
+       public static void main(String[] args) {
+            MemoryLeakExample example = new MemoryLeakExample();
+
+          for (int i = 0; i < 1000000; i++) {
+             example.add("Item " + i);
+          }
+
+          // example 객체는 더 이상 필요하지 않지만, list에 대한 참조를 가지고 있음
+          // 따라서 가비지 컬렉션이 발생해도 example 객체는 메모리에서 제거되지 않음
+     }
+    } </code></pre>
+
+<b>제대로 동작되게 코드 작성</b>
+    
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryLeakExample {
+    private List<String> list = new ArrayList<>();
+
+    public void add(String item) {
+        list.add(item);
+    }
+
+    public static void main(String[] args) {
+        MemoryLeakExample example = new MemoryLeakExample();
+
+        for (int i = 0; i < 1000000; i++) {
+            example.add("Item " + i);
+        }
+
+        example = null; // example 객체에 대한 참조 제거
+
+        // 이후에는 example 객체에 대한 참조가 없으므로 가비지 컬렉션이 동작하여 메모리에서 제거될 수 있음
+    }
+} </code></pre>
+
+example 객체 참조를 null로 해줘서 참조해제하면 제대로 동작 가능
+                                                       
+<b>제대로 동작되게 코드 작성2(다른 방법)</b>
+       
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryLeakExample {
+    public void addItems() {
+        List<String> list = new ArrayList<>(); // 지역 변수로 선언
+
+        for (int i = 0; i < 1000000; i++) {
+            list.add("Item " + i);
+        }
+
+        // list를 사용한 작업 수행
+
+        list = null; // 지역 변수 참조 해제
+    }
+
+    public static void main(String[] args) {
+        MemoryLeakExample example = new MemoryLeakExample();
+        example.addItems();
+
+        // 이후에는 addItems() 메서드의 로컬 변수인 list에 대한 참조가 없으므로 가비지 컬렉션이 동작하여 메모리에서 제거될 수 있음
+    }
+} </code></pre>
 
 
-자료 출처 : https://mangkyu.tistory.com/118 | https://itkjspo56.tistory.com/285 | https://coding-factory.tistory.com/829 | https://mangkyu.tistory.com/118
+전역변수는프로그램의 수명 주기 동안 계속해서 참조함.
+                                                       
+이를 지역변수로 선언해서 방지한다.
+                                                       
+자료 출처 : https://mangkyu.tistory.com/118 | https://itkjspo56.tistory.com/285 | https://coding-factory.tistory.com/829 | Chat GPT
