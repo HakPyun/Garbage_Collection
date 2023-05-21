@@ -92,4 +92,6 @@ Young 영역은 일반적으로 Old 영역보다 크키가 작기 때문에 GC�
         Minor GC는 Young 영역이 꽉 찼을 때 실행되며, 속도는 빠르다.
         Majot GC는 Old 영역이 꽉 찼을 때 실행되며, 속도는 느리다.(Old 영역이 더 크기 때문)
         
-# Examples
+# Example Questions
+
+
